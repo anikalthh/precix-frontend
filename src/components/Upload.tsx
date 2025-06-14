@@ -29,7 +29,7 @@ function Upload() {
                 formData.append("image", file);
                 formData.append("imageProcessType", imgProcessType);
                 console.log('before trying submit')
-                await fetch('http://localhost:8080/imageupload', {
+                await fetch('https://precix-backend-production.up.railway.app/imageupload', {
                     method: 'POST',
                     body: formData
                 }).then((response) => {
@@ -37,8 +37,8 @@ function Upload() {
                 }).then((filename) => {
                     console.log("filename???", filename);
                     setLoading(false)
-                    setImgBefore(`http://localhost:8080/uploads/${filename}?t=${Date.now()}`)
-                    setImgAfter(`http://localhost:8080/uploads/${getStem(filename)}_Processed.jpg?t=${Date.now()}`)
+                    setImgBefore(`https://precix-backend-production.up.railway.app/uploads/${filename}?t=${Date.now()}`)
+                    setImgAfter(`https://precix-backend-production.up.railway.app/uploads/${getStem(filename)}_Processed.jpg?t=${Date.now()}`)
                 }).catch((error) => {
                     console.log("ERROR IN POST REQ FE: " + error)
                 })
