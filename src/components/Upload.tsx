@@ -14,10 +14,18 @@ function Upload() {
     const [imgBefore, setImgBefore] = useState('');
     const [imgAfter, setImgAfter] = useState('');
 
-    const getStem = (filename: string): string => {
-    const lastDot = filename.lastIndexOf(".");
-    return lastDot === -1 ? filename : filename.slice(0, lastDot);
-}
+    const appendProcessedToFilename = (filename: string): string => {
+        const lastDotIndex = filename.lastIndexOf(".");
+
+        // if no extensions
+        if (lastDotIndex === -1) {
+            return `${filename}_Processed`;
+        }
+        const name = filename.slice(0, lastDotIndex);
+        const extension = filename.slice(lastDotIndex);
+        return `${name}_Processed${extension}`;
+    };
+
 
     const submit = async () => {
         setImgBefore('');
@@ -28,21 +36,20 @@ function Upload() {
                 const formData = new FormData();
                 formData.append("image", file);
                 formData.append("imageProcessType", imgProcessType);
-                console.log('before trying submit')
-                await fetch('https://precix-backend-production.up.railway.app/imageupload', {
+                await fetch('http://localhost:8080/imageupload', {
                     method: 'POST',
                     body: formData
                 }).then((response) => {
                     return response.text()
                 }).then((filename) => {
-                    console.log("filename???", filename);
                     setLoading(false)
                     setImgBefore(`https://precix-backend-production.up.railway.app/uploads/${filename}?t=${Date.now()}`)
-                    setImgAfter(`https://precix-backend-production.up.railway.app/uploads/${getStem(filename)}_Processed.jpg?t=${Date.now()}`)
-                }).catch((error) => {
-                    console.log("ERROR IN POST REQ FE: " + error)
+                    setImgAfter(`https://precix-backend-production.up.railway.app/uploads/${getStemOrExtension(filename, true)}_Processed${getStemOrExtension(filename, false)}?t=${Date.now()}`)
+
+                    // local debugging
+                    setImgBefore(`http://localhost:8080/uploads/${filename}?t=${Date.now()}`)
+                    setImgAfter(`http://localhost:8080/uploads/${appendProcessedToFilename(filename)}?t=${Date.now()}`)
                 })
-                console.log("TRYING SUBMIT")
             } catch (error) {
                 console.log(error)
             }
