@@ -44,11 +44,11 @@ function Upload() {
                 }).then((filename) => {
                     setLoading(false)
                     setImgBefore(`https://precix-backend-production.up.railway.app/uploads/${filename}?t=${Date.now()}`)
-                    setImgAfter(`https://precix-backend-production.up.railway.app/uploads/${getStemOrExtension(filename, true)}_Processed${getStemOrExtension(filename, false)}?t=${Date.now()}`)
+                    setImgAfter(`https://precix-backend-production.up.railway.app/uploads/${appendProcessedToFilename(filename)}?t=${Date.now()}`)
 
                     // local debugging
-                    setImgBefore(`http://localhost:8080/uploads/${filename}?t=${Date.now()}`)
-                    setImgAfter(`http://localhost:8080/uploads/${appendProcessedToFilename(filename)}?t=${Date.now()}`)
+                    // setImgBefore(`http://localhost:8080/uploads/${filename}?t=${Date.now()}`)
+                    // setImgAfter(`http://localhost:8080/uploads/${appendProcessedToFilename(filename)}?t=${Date.now()}`)
                 })
             } catch (error) {
                 console.log(error)
