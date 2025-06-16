@@ -36,7 +36,7 @@ function Upload() {
                 const formData = new FormData();
                 formData.append("image", file);
                 formData.append("imageProcessType", imgProcessType);
-                await fetch('http://localhost:8080/imageupload', {
+                await fetch('https://precix-backend-production.up.railway.app/imageupload', {
                     method: 'POST',
                     body: formData
                 }).then((response) => {
